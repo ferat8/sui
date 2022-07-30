@@ -11,6 +11,8 @@
     border: none;
     cursor: pointer;
     text-transform: capitalize;
+    text-decoration: none;
+    color: inherit;
 
     &.neutral {
         background: colors.$gray-45;
@@ -45,5 +47,10 @@
         font-size: 14px;
         padding: 12px 20px;
         border-radius: 10px;
+    }
+
+    &.disabled {
+        opacity: 0.5;
+        cursor: default;
     }
 }

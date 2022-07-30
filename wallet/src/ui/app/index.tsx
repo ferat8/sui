@@ -5,12 +5,11 @@ import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { AppType } from './redux/slices/app/AppType';
+import { routes as stakeRoutes } from './staking';
 import { useAppDispatch, useAppSelector } from '_hooks';
 import { DappTxApprovalPage } from '_pages/dapp-tx-approval';
 import HomePage, {
     NftsPage,
-    StakeNew,
-    StakePage,
     TokensPage,
     TransactionDetailsPage,
     TransactionsPage,
@@ -27,7 +26,7 @@ import WelcomePage from '_pages/welcome';
 import { loadAccountFromStorage } from '_redux/slices/account';
 import { setNavVisibility } from '_redux/slices/app';
 
-const HIDDEN_MENU_PATHS = ['/stake-new', '/nft-details'];
+const HIDDEN_MENU_PATHS = ['/stake', '/nft-details'];
 
 const App = () => {
     const dispatch = useAppDispatch();
@@ -57,10 +56,7 @@ const App = () => {
                 <Route path="nft-details" element={<NFTDetailsPage />} />
                 <Route path="transactions" element={<TransactionsPage />} />
                 <Route path="send" element={<TransferCoinPage />} />
-                <Route path="stake" element={<StakePage />} />
-                {process.env.NODE_ENV === 'development' ? (
-                    <Route path="stake-new" element={<StakeNew />} />
-                ) : null}
+                {stakeRoutes}
                 <Route
                     path="tx/:txDigest"
                     element={<TransactionDetailsPage />}

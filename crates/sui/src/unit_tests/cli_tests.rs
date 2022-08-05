@@ -160,6 +160,7 @@ async fn test_objects_command() -> Result<(), anyhow::Error> {
 
     let _object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address)
         .await?;
 
@@ -246,6 +247,7 @@ async fn test_object_info_get_command() -> Result<(), anyhow::Error> {
 
     let object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address)
         .await?;
 
@@ -267,6 +269,7 @@ async fn test_gas_command() -> Result<(), anyhow::Error> {
 
     let object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address)
         .await?;
 
@@ -328,6 +331,7 @@ async fn test_move_call_args_linter_command() -> Result<(), anyhow::Error> {
 
     let object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address1)
         .await?;
 
@@ -455,6 +459,7 @@ async fn test_package_publish_command() -> Result<(), anyhow::Error> {
 
     let object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address)
         .await?;
 
@@ -519,6 +524,7 @@ async fn test_native_transfer() -> Result<(), anyhow::Error> {
 
     let object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address)
         .await?;
 
@@ -609,6 +615,7 @@ async fn test_native_transfer() -> Result<(), anyhow::Error> {
 
     let object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address)
         .await?;
 
@@ -687,6 +694,7 @@ async fn test_switch_command() -> Result<(), anyhow::Error> {
     // Check that we indeed fetched for addr1
     let mut actual_objs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(addr1)
         .await
         .unwrap();
@@ -807,7 +815,9 @@ fn get_gas_value(o: &SuiParsedObject) -> u64 {
 }
 
 async fn get_object(id: ObjectID, context: &mut WalletContext) -> Option<SuiParsedObject> {
-    if let GetObjectDataResponse::Exists(o) = context.gateway.get_object(id).await.unwrap() {
+    if let GetObjectDataResponse::Exists(o) =
+        context.gateway.read_api().get_object(id).await.unwrap()
+    {
         Some(o)
     } else {
         None
@@ -821,6 +831,7 @@ async fn test_merge_coin() -> Result<(), anyhow::Error> {
 
     let object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address)
         .await?;
 
@@ -862,6 +873,7 @@ async fn test_merge_coin() -> Result<(), anyhow::Error> {
     .await?;
     let object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address)
         .await?;
 
@@ -902,6 +914,7 @@ async fn test_split_coin() -> Result<(), anyhow::Error> {
     let (_network, mut context, address) = setup_network_and_wallet().await?;
     let object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address)
         .await?;
 
@@ -941,6 +954,7 @@ async fn test_split_coin() -> Result<(), anyhow::Error> {
 
     let object_refs = context
         .gateway
+        .read_api()
         .get_objects_owned_by_address(address)
         .await?;
 

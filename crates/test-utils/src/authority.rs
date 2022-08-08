@@ -6,6 +6,7 @@ use std::collections::BTreeMap;
 use std::sync::Arc;
 use std::time::Duration;
 use sui_config::{NetworkConfig, ValidatorInfo};
+use sui_core::epoch::epoch_store::EpochStore;
 use sui_core::{
     authority_active::{
         checkpoint_driver::{CheckpointMetrics, CheckpointProcessControl},
@@ -94,6 +95,7 @@ pub async fn spawn_checkpoint_processes(
 /// Create a test authority aggregator.
 pub fn test_authority_aggregator(
     config: &NetworkConfig,
+    epoch_store: Arc<EpochStore>,
 ) -> AuthorityAggregator<NetworkAuthorityClient> {
     let validators_info = config.validator_set();
     let committee = Committee::new(0, ValidatorInfo::voting_rights(validators_info)).unwrap();
@@ -107,7 +109,7 @@ pub fn test_authority_aggregator(
         })
         .collect();
     let metrics = AuthAggMetrics::new(&prometheus::Registry::new());
-    AuthorityAggregator::new(committee, clients, metrics)
+    AuthorityAggregator::new(committee, epoch_store, clients, metrics)
 }
 
 /// Get a network client to communicate with the consensus.

@@ -7320,6 +7320,7 @@ dependencies = [
  "futures",
  "futures-core",
  "jsonrpsee",
+ "move-core-types",
  "rand 0.7.3",
  "serde 1.0.142",
  "serde_json",

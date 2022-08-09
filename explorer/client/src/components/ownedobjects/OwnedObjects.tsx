@@ -251,9 +251,11 @@ function GroupView({ results }: { results: resultType }) {
             >
                 <thead>
                     <tr>
+                        <th />
                         <th>Type</th>
                         <th>Objects</th>
                         <th>Balance</th>
+                        <th />
                     </tr>
                 </thead>
                 <>
@@ -282,16 +284,14 @@ function GroupView({ results }: { results: resultType }) {
                                                 : openThisType(typeV)
                                         }
                                     >
-                                        <td className={styles.tablespacing}>
+                                        <td>
                                             <span className={styles.icon}>
                                                 <ContentIcon />
                                             </span>
-                                            {handleCoinType(typeV)}
                                         </td>
-                                        <td className={styles.tablespacing}>
-                                            {subObjList.length}
-                                        </td>
-                                        <td className={styles.tablespacing}>
+                                        <td>{handleCoinType(typeV)}</td>
+                                        <td>{subObjList.length}</td>
+                                        <td>
                                             {subObjList[0]._isCoin &&
                                             subObjList.every(
                                                 (el) => el.balance !== undefined
@@ -305,6 +305,7 @@ function GroupView({ results }: { results: resultType }) {
                                                   )}`
                                                 : ''}
                                         </td>
+                                        <td />
                                     </tr>
                                     {openedType === typeV &&
                                         subObjList.map((subObj, index) => (
@@ -312,16 +313,20 @@ function GroupView({ results }: { results: resultType }) {
                                                 key={`${typeV}${index}`}
                                             >
                                                 <tr>
+                                                    <td />
                                                     <td>Object ID</td>
                                                     <td colSpan={2}>
                                                         {subObj.id}
                                                     </td>
+                                                    <td />
                                                 </tr>
                                                 <tr>
+                                                    <td />
                                                     <td>Balance</td>
                                                     <td colSpan={2}>
                                                         {subObj.balance?.toString()}
                                                     </td>
+                                                    <td />
                                                 </tr>
                                             </React.Fragment>
                                         ))}

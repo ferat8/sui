@@ -324,7 +324,11 @@ function GroupView({ results }: { results: resultType }) {
                                                     </td>
                                                     <td />
                                                 </tr>
-                                                <tr>
+                                                <tr
+                                                    className={
+                                                        styles.seconditem
+                                                    }
+                                                >
                                                     <td />
                                                     <td>Balance</td>
                                                     <td colSpan={2}>

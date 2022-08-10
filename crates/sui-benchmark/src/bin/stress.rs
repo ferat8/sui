@@ -27,6 +27,7 @@ use sui_node::metrics;
 use sui_node::SuiNode;
 use sui_types::base_types::ObjectID;
 use sui_types::base_types::SuiAddress;
+use sui_types::crypto::AccountKeyPair;
 use tokio::sync::OnceCell;
 
 use std::collections::HashMap;
@@ -44,9 +45,8 @@ use sui_benchmark::workloads::workload::Workload;
 use sui_core::authority_client::NetworkAuthorityClient;
 use sui_quorum_driver::QuorumDriverHandler;
 use sui_sdk::crypto::FileBasedKeystore;
+use sui_types::crypto::EmptySignInfo;
 use sui_types::crypto::EncodeDecodeBase64;
-use sui_types::crypto::KeypairTraits;
-use sui_types::crypto::{AccountKeyPair, EmptySignInfo};
 use sui_types::messages::{
     ExecuteTransactionRequest, ExecuteTransactionRequestType, ExecuteTransactionResponse,
     TransactionEnvelope,
@@ -623,7 +623,7 @@ async fn main() -> Result<()> {
             .key_pairs()
             .iter()
             .find(|x| {
-                let address: SuiAddress = Into::<SuiAddress>::into(x.public());
+                let address: SuiAddress = Into::<SuiAddress>::into(&x.public());
                 address == primary_gas_account
             })
             .map(|x| x.encode_base64())

@@ -31,7 +31,7 @@ use sui_json_rpc::sui_rpc_doc;
 use sui_json_rpc::SuiRpcModule;
 use sui_json_rpc_types::{
     GetObjectDataResponse, MoveFunctionArgType, ObjectValueKind, SuiData, SuiObjectInfo,
-    TransactionBytes, TransactionEffectsResponse, TransactionResponse,
+    SuiTransactionResponse, TransactionBytes,
 };
 use sui_types::base_types::{ObjectID, SuiAddress};
 use sui_types::crypto::SuiSignature;
@@ -150,7 +150,7 @@ async fn create_response_sample() -> Result<
     let coin = context
         .gateway
         .read_api()
-        .get_object(coins.first().unwrap().object_id)
+        .get_parsed_object(coins.first().unwrap().object_id)
         .await?;
 
     let example_move_function_arg_types = create_move_function_arg_type_response()?;
@@ -222,22 +222,20 @@ async fn create_package_object_response(
     .execute(context)
     .await?;
     if let SuiClientCommandResult::Publish(response) = result {
-        Ok((
-            context
-                .gateway
-                .read_api()
-                .get_object(
-                    response
-                        .parsed_data
-                        .clone()
-                        .unwrap()
-                        .to_publish_response()?
-                        .package
-                        .object_id,
-                )
-                .await?,
-            response,
-        ))
+        let object = context
+            .gateway
+            .read_api()
+            .get_parsed_object(
+                response
+                    .parsed_data
+                    .clone()
+                    .unwrap()
+                    .to_publish_response()?
+                    .package
+                    .object_id,
+            )
+            .await?;
+        Ok((object, response))
     } else {
         panic!()
     }
@@ -335,14 +333,12 @@ async fn create_hero_response(
 
         if let SuiClientCommandResult::Call(_, effect) = result {
             let hero = effect.created.first().unwrap();
-            Ok((
-                package_id,
-                context
-                    .gateway
-                    .read_api()
-                    .get_object(hero.reference.object_id)
-                    .await?,
-            ))
+            let object = context
+                .gateway
+                .read_api()
+                .get_parsed_object(hero.reference.object_id)
+                .await?;
+            Ok((package_id, object))
         } else {
             panic!()
         }
@@ -450,7 +446,7 @@ async fn get_nft_response(
         let object = context
             .gateway
             .read_api()
-            .get_object(effects.created.first().unwrap().reference.object_id)
+            .get_parsed_object(effects.created.first().unwrap().reference.object_id)
             .await?;
         let tx = SuiTransactionResponse {
             certificate,

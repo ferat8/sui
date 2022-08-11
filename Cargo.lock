@@ -7320,6 +7320,7 @@ dependencies = [
  "futures",
  "futures-core",
  "jsonrpsee",
+ "move-binary-format",
  "move-bytecode-utils",
  "move-core-types",
  "rand 0.7.3",

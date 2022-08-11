@@ -155,6 +155,7 @@ where
                 new_committee,
                 self.net.load().clone_inner_clients(),
                 self.net.load().metrics.clone(),
+                self.net.load().safe_client_metrics.clone(),
             ));
             self.net.store(new_net);
         }
@@ -284,6 +285,7 @@ where
             new_committee,
             new_clients,
             self.net.load().metrics.clone(),
+            self.net.load().safe_client_metrics.clone(),
         ));
         self.net.store(new_net);
         Ok(())
